@@ -1,6 +1,12 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using Seturi.Abstractions;
+using Seturi.Attributes;
 using Seturi.Entities;
+using Seturi.Services;
+using Uri = Seturi.Entities.Uri;
 
 namespace Seturi
 {
@@ -13,6 +19,13 @@ namespace Seturi
         private  string Path { get; set; }
         
         private  string Params { get; set; }
+
+        private readonly ReflectionServices _reflection;
+
+        public UriBuilder()
+        {
+            _reflection = new ReflectionServices();
+        }
         public Uri GenerateUri()
         {
             var uri = new Uri(Protocol, Host, Path, Params);
@@ -43,10 +56,13 @@ namespace Seturi
             this.Path = SetComponentEnd(path);
         }
 
-        public void AddParams<T>(T paramsObject)
+        public void AddParams<T>(string methodName, T paramsObject)
         {
-            TypeInfo info = paramsObject.GetType().GetTypeInfo();
-            
+            var type = paramsObject.GetType();
+            var parameters = _reflection.GetAttributeFields(type, paramsObject);
+
+            Params = methodName + GenerateParamsString(parameters);
+
         }
 
         private string SetComponentEnd(string component)
@@ -57,6 +73,26 @@ namespace Seturi
             component += "/";
 
             return component;
+        }
+
+        private string GenerateParamsString(List<UriParam> parameters)
+        {
+            var strBuilder = new StringBuilder();
+
+            foreach (var param in parameters)
+            {
+                if (String.IsNullOrEmpty(strBuilder.ToString()))
+                {
+                    strBuilder.Append("?");
+                    strBuilder.Append(param.ParamName + "=" + param.Value.ToString());
+                }
+                else
+                {
+                    strBuilder.Append("&");
+                    strBuilder.Append(param.ParamName + "=" + param.Value.ToString());
+                }
+            }
+            return strBuilder.ToString();
         }
     }
 }

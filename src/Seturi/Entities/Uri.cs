@@ -18,6 +18,10 @@ namespace Seturi.Entities
         internal Uri(string protocol, string host, string path, string parameters)
         {
             AbsoluteUri = null;
+            Protocol = protocol;
+            Host = host;
+            Path = path;
+            Params = parameters;
         }
         
         public string Protocol { get; private set; }
