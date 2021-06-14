@@ -1,13 +1,13 @@
 ﻿namespace Seturi.Entities
 {
-    public sealed class Protocol
+    internal sealed class Protocol
     {
-        public string Http
+        public static string Http
         {
             get { return "http://"; }
         }
 
-        public string Https
+        public static string Https
         {
             get { return "https://"; }
         }

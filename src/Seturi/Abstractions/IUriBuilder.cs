@@ -5,6 +5,10 @@ namespace Seturi.Abstractions
     public interface IUriBuilder
     {
         Uri GenerateUri();
-        Uri GenerateUri(IUriConfig configuration);
+        string GenerateUriAsString();
+        void AddProtocol(ProtocolType protocol);
+        void AddHost(string host);
+        void AddPath(string path);
+        void AddParams<T>(T paramsObject);
     }
 }

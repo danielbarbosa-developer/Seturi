@@ -1,4 +1,6 @@
-﻿namespace Seturi.Entities
+﻿using Seturi.Attributes;
+
+namespace Seturi.Entities
 {
     public sealed class Uri
     {
@@ -13,7 +15,7 @@
             AbsoluteUri = absoluteUri;
         }
         
-        internal Uri(string protocol, string path)
+        internal Uri(string protocol, string host, string path, string parameters)
         {
             AbsoluteUri = null;
         }
