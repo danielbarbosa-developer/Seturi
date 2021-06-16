@@ -18,7 +18,7 @@ namespace Seturi
         
         private  string Path { get; set; }
         
-        private  string Params { get; set; }
+        private  string Query { get; set; }
 
         private readonly ReflectionServices _reflection;
 
@@ -28,13 +28,13 @@ namespace Seturi
         }
         public Uri GenerateUri()
         {
-            var uri = new Uri(Protocol, Host, Path, Params);
+            var uri = new Uri(Protocol, Host, Path, Query);
             return uri;
         }
 
         public string GenerateUriAsString()
         {
-            var uri = new Uri(Protocol, Host, Path, Params);
+            var uri = new Uri(Protocol, Host, Path, Query);
             return uri.ToString();
         }
 
@@ -56,12 +56,12 @@ namespace Seturi
             this.Path = SetComponentEnd(path);
         }
 
-        public void AddParams<T>(string methodName, T paramsObject)
+        public void AddQuery<T>(string methodName, T paramsObject)
         {
             var type = paramsObject.GetType();
             var parameters = _reflection.GetAttributeFields(type, paramsObject);
 
-            Params = methodName + GenerateParamsString(parameters);
+            Query = methodName + GenerateParamsString(parameters);
 
         }
 

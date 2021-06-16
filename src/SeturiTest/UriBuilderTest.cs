@@ -31,7 +31,7 @@ namespace SeturiTest
             _builder.AddProtocol(ProtocolType.Https);
             _builder.AddHost("www.test.com");
             _builder.AddPath("testing");
-            _builder.AddParams<RequestParams>("execute", _params);
+            _builder.AddQuery<RequestParams>("execute", _params);
 
             #endregion
 

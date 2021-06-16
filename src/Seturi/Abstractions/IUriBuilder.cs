@@ -9,6 +9,6 @@ namespace Seturi.Abstractions
         void AddProtocol(ProtocolType protocol);
         void AddHost(string host);
         void AddPath(string path);
-        void AddParams<T>(string methodName, T paramsObject);
+        void AddQuery<T>(string methodName, T paramsObject);
     }
 }
