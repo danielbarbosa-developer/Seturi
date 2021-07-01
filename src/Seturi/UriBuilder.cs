@@ -5,6 +5,7 @@ using System.Text;
 using Seturi.Abstractions;
 using Seturi.Attributes;
 using Seturi.Entities;
+using Seturi.Exceptions;
 using Seturi.Services;
 using Uri = Seturi.Entities.Uri;
 
@@ -48,16 +49,25 @@ namespace Seturi
 
         public void AddHost(string host)
         {
+            if (String.IsNullOrEmpty(host) || String.IsNullOrWhiteSpace(host))
+                throw new InvalidHostException("Parameter host cannot be null or empty");
+            
             this.Host = SetComponentEnd(host);
         }
 
         public void AddPath(string path)
         {
+            if (String.IsNullOrEmpty(path) || String.IsNullOrWhiteSpace(path))
+                throw new InvalidPathException("Parameter path cannot be null or empty");
+            
             this.Path = SetComponentEnd(path);
         }
 
         public void AddQuery<T>(string methodName, T paramsObject)
         {
+            if (String.IsNullOrEmpty(methodName) || String.IsNullOrWhiteSpace(methodName))
+                throw new InvalidQueryException("Parameter method cannot be null or empty in this context");
+            
             var type = paramsObject.GetType();
             var parameters = _reflection.GetAttributeFields(type, paramsObject);
 

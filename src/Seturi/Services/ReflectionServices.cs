@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Seturi.Attributes;
+using Seturi.Exceptions;
 
 namespace Seturi.Services
 {
@@ -20,10 +21,18 @@ namespace Seturi.Services
                 foreach (Attributes.UriParam uriAttribute in info.GetCustomAttributes(typeof(Attributes.UriParam), false))
                 {
                     uriAttribute.Value = info.GetValue(obj, null);
+                    
+                    if(uriAttribute.Value == null)
+                        continue;
+
+                    if (uriAttribute.Value.GetType() == typeof(IEnumerable<>) ||
+                        uriAttribute.Value.GetType() == typeof(IList<>))
+                        throw new InvalidParamsException($"Property cannot be of type: {uriAttribute.Value.GetType()}");
+                    
+                    
                     ParamsList.Add(uriAttribute);
                 }
             }
-
             return ParamsList;
         }
     }
