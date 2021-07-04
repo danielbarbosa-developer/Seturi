@@ -29,12 +29,14 @@ namespace Seturi
         }
         public Uri GenerateUri()
         {
+            ValidateRequiredParams(this);
             var uri = new Uri(Protocol, Host, Path, Query);
             return uri;
         }
 
         public string GenerateUriAsString()
         {
+            ValidateRequiredParams(this);
             var uri = new Uri(Protocol, Host, Path, Query);
             return uri.ToString();
         }
@@ -103,6 +105,16 @@ namespace Seturi
                 }
             }
             return strBuilder.ToString();
+        }
+
+        public void ValidateRequiredParams(UriBuilder builder)
+        {
+            if (String.IsNullOrEmpty(builder.Protocol))
+                throw new UriPropertyNotFoundException(
+                    "Protocol is a URI property required in this context, consider use the method AddProtocol() to define it");
+            
+            if (String.IsNullOrEmpty(builder.Host))
+                throw new UriPropertyNotFoundException("Host is a URI property required in this context, consider use the method AddHost() to define it");
         }
     }
 }

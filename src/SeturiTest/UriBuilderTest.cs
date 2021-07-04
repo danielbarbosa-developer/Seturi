@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Seturi;
 using Seturi.Entities;
+using Seturi.Exceptions;
 using SeturiTest.Models;
 
 namespace SeturiTest
@@ -21,6 +22,7 @@ namespace SeturiTest
             
             _builder = new UriBuilder();
         }
+        
         [Test]
         [Description("Must generate a complete URI with UriBuilder class")]
         public void UriBuilderGenerateUriAsStringTest()
@@ -45,5 +47,72 @@ namespace SeturiTest
             Assert.AreEqual(expectedUri, uri);
 
         }
+        
+        [Test]
+        [Description("Must throw InvalidHostException")]
+        public void UriBuilderMustThrowHostException()
+        {
+            #region UriBuilder
+
+            _builder.AddProtocol(ProtocolType.Https);
+            Assert.That(() => _builder.AddHost(""), 
+                Throws.TypeOf<InvalidHostException>());
+            
+            _builder.AddPath("testing");
+            _builder.AddQuery<RequestParams>("execute", _params);
+
+            #endregion
+        }
+        
+        [Test]
+        [Description("Must throw InvalidPathException")]
+        public void UriBuilderMustThrowPathException()
+        {
+            #region UriBuilder
+
+            _builder.AddProtocol(ProtocolType.Https);
+            _builder.AddHost("www.test.com");
+            
+            Assert.That(() => _builder.AddPath(""), 
+                Throws.TypeOf<InvalidPathException>());
+            
+            _builder.AddQuery<RequestParams>("execute", _params);
+
+            #endregion
+        }
+        [Test]
+        [Description("Must throw UriPropertyNotFoundException")]
+        public void UriBuilderMustThrowUriPropertyNotFoundExceptionWhenProtocolNotDefined()
+        {
+            // Protocol must to be define, but wasn't :(
+            // _builder.AddProtocol(ProtocolType.Https);
+            
+            _builder.AddHost("www.test.com");
+            
+            _builder.AddPath("testing");
+            _builder.AddQuery<RequestParams>("execute", _params);
+            
+            Assert.That(() => _builder.GenerateUri(), 
+                Throws.TypeOf<UriPropertyNotFoundException>());
+           
+        }
+        
+        [Test]
+        [Description("Must throw UriPropertyNotFoundException")]
+        public void UriBuilderMustThrowUriPropertyNotFoundExceptionWhenHostNotDefined()
+        {
+            _builder.AddProtocol(ProtocolType.Https);
+            
+            // Host must to be define, but wasn't :(
+            // _builder.AddHost("www.test.com");
+            
+            _builder.AddPath("testing");
+            _builder.AddQuery<RequestParams>("execute", _params);
+            
+            Assert.That(() => _builder.GenerateUri(), 
+                Throws.TypeOf<UriPropertyNotFoundException>());
+           
+        }
+        
     }
 } 

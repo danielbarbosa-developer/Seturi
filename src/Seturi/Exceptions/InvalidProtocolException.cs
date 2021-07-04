@@ -1,6 +1,6 @@
 ﻿namespace Seturi.Exceptions
 {
-    public class UriConfigException
+    public class InvalidProtocolException
     {
         
     }

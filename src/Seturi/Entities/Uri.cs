@@ -1,4 +1,8 @@
-﻿using Seturi.Attributes;
+﻿using System;
+using System.Reflection;
+using System.Text;
+using Seturi.Attributes;
+using Seturi.Exceptions;
 
 namespace Seturi.Entities
 {
@@ -12,6 +16,9 @@ namespace Seturi.Entities
 
         public Uri(string absoluteUri)
         {
+            if (String.IsNullOrEmpty(absoluteUri) || String.IsNullOrWhiteSpace(absoluteUri))
+                throw new InvalidUriException("Absolute URI cannot be null or empty");
+            
             AbsoluteUri = absoluteUri;
         }
         
@@ -37,7 +44,23 @@ namespace Seturi.Entities
             if (AbsoluteUri != null)
                 return AbsoluteUri;
             
-            return Protocol + Host + Path + Query;
+            return ResolveUriPropertiesToString(this);
+        }
+
+        private string ResolveUriPropertiesToString(Uri uri)
+        {
+            StringBuilder sb = new StringBuilder();
+            
+            sb.Append(uri.Protocol);
+            sb.Append(uri.Host);
+
+            if (!String.IsNullOrEmpty(uri.Path))
+                sb.Append(uri.Path);
+
+            if (!String.IsNullOrEmpty(uri.Query))
+                sb.Append(uri.Query);
+
+            return sb.ToString();
         }
     }
 }

@@ -2,6 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard1.0</TargetFramework>
+        <LangVersion>9</LangVersion>
+        <PackageVersion>1.0.0-alpha</PackageVersion>
+        <Title>Seturi</Title>
+        <Authors>Daniel Barbosa</Authors>
+        <Description>Build dynamic URIs, and be more productive when working with URIs in an OOP context. </Description>
+        <Copyright>(c)2021 Daniel Barbosa</Copyright>
+        <PackageProjectUrl>https://github.com/danielbarbosa-developer/Seturi</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/danielbarbosa-developer/Seturi</RepositoryUrl>
+        <RepositoryType>Github</RepositoryType>
     </PropertyGroup>
 
 </Project>
