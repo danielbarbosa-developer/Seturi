@@ -6,14 +6,18 @@ using Seturi.Exceptions;
 
 namespace Seturi.Entities
 {
+    /// <summary>
+    /// A class used to work with URIs
+    /// </summary>
     public sealed class Uri
     {
         private readonly string AbsoluteUri;
-        public Uri()
-        {
-            AbsoluteUri = null;
-        }
-
+        
+        /// <summary>
+        /// Use this constructor if you already have your URI string complete and only want to generate its URI object
+        /// </summary>
+        /// <param name="absoluteUri">Your complete URI</param>
+        /// <exception cref="InvalidUriException"></exception>
         public Uri(string absoluteUri)
         {
             if (String.IsNullOrEmpty(absoluteUri) || String.IsNullOrWhiteSpace(absoluteUri))
@@ -31,12 +35,24 @@ namespace Seturi.Entities
             Query = query;
         }
         
+        /// <summary>
+        /// The URI protocol (Ex: Https)
+        /// </summary>
         public string Protocol { get; private set; }
         
+        /// <summary>
+        /// The URI host (Ex:www.test.com)
+        /// </summary>
         public string Host { get; private set; }
         
+        /// <summary>
+        /// The URI path or additional content 
+        /// </summary>
         public string Path { get; private set; }
         
+        /// <summary>
+        /// The URI query (Ex: execute?order=1)
+        /// </summary>
         public string Query { get; private set; }
 
         public override string ToString()

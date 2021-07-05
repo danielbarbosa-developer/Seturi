@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using Seturi.Abstractions;
 using Seturi.Attributes;
@@ -11,6 +10,9 @@ using Uri = Seturi.Entities.Uri;
 
 namespace Seturi
 {
+    /// <summary>
+    /// Offers methods to add URI components and generates URIs
+    /// </summary>
     public class UriBuilder : IUriBuilder
     {
         private  string Protocol { get; set; }
@@ -27,20 +29,32 @@ namespace Seturi
         {
             _reflection = new ReflectionServices();
         }
+        /// <summary>
+        /// Generates the URI object when all properties are defined 
+        /// </summary>
+        /// <returns>A Uri object</returns>
         public Uri GenerateUri()
         {
             ValidateRequiredParams(this);
             var uri = new Uri(Protocol, Host, Path, Query);
             return uri;
         }
-
+        
+        /// <summary>
+        /// Generates the URI string to final use when all properties are defined 
+        /// </summary>
+        /// <returns>A URI string to final use </returns>
         public string GenerateUriAsString()
         {
             ValidateRequiredParams(this);
             var uri = new Uri(Protocol, Host, Path, Query);
             return uri.ToString();
         }
-
+        
+        /// <summary>
+        /// Add the URI protocol
+        /// </summary>
+        /// <param name="protocol">The protocol enum type</param>
         public void AddProtocol(ProtocolType protocol)
         {
             if (protocol == ProtocolType.Http)
@@ -49,6 +63,11 @@ namespace Seturi
                 this.Protocol = Entities.Protocol.Https;
         }
 
+        /// <summary>
+        /// Add the host to the URI
+        /// </summary>
+        /// <param name="host">The URI host (Ex: www.test.com)</param>
+        /// <exception cref="InvalidHostException"></exception>
         public void AddHost(string host)
         {
             if (String.IsNullOrEmpty(host) || String.IsNullOrWhiteSpace(host))
@@ -56,7 +75,12 @@ namespace Seturi
             
             this.Host = SetComponentEnd(host);
         }
-
+        
+        /// <summary>
+        /// Add the path for the URI
+        /// </summary>
+        /// <param name="path">The URI path or additional content</param>
+        /// <exception cref="InvalidPathException"></exception>
         public void AddPath(string path)
         {
             if (String.IsNullOrEmpty(path) || String.IsNullOrWhiteSpace(path))
@@ -65,6 +89,13 @@ namespace Seturi
             this.Path = SetComponentEnd(path);
         }
 
+        /// <summary>
+        /// Add the query for the URI
+        /// </summary>
+        /// <param name="methodName">The query method (Ex: "execute" in the query "execute?order=1")</param>
+        /// <param name="paramsObject">The model class that contains properties marked with UriParamAttribute and can be serialized</param>
+        /// <typeparam name="T">The model class that contains properties marked with UriParamAttribute and can be serialized</typeparam>
+        /// <exception cref="InvalidQueryException"></exception>
         public void AddQuery<T>(string methodName, T paramsObject)
         {
             if (String.IsNullOrEmpty(methodName) || String.IsNullOrWhiteSpace(methodName))
@@ -107,7 +138,7 @@ namespace Seturi
             return strBuilder.ToString();
         }
 
-        public void ValidateRequiredParams(UriBuilder builder)
+        private void ValidateRequiredParams(UriBuilder builder)
         {
             if (String.IsNullOrEmpty(builder.Protocol))
                 throw new UriPropertyNotFoundException(

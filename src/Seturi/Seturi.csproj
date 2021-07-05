@@ -11,6 +11,41 @@
         <PackageProjectUrl>https://github.com/danielbarbosa-developer/Seturi</PackageProjectUrl>
         <RepositoryUrl>https://github.com/danielbarbosa-developer/Seturi</RepositoryUrl>
         <RepositoryType>Github</RepositoryType>
+        <PackageTags>uri, url</PackageTags>
+        <PackageId>Seturi</PackageId>
+        <RootNamespace>Seturi</RootNamespace>
+        <AssemblyName>Seturi</AssemblyName>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageIcon></PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageReleaseNotes>
+          Class to work with URIs;
+          Attributes to serialize models properties and create dynamics URIs queries;
+        </PackageReleaseNotes>
+        <Package>
+          <metadata>
+            <icon>../../assets/Seturi_Logo.jpeg</icon>
+          </metadata>
+          <files>
+            <file src="../../assets/Seturi_Logo.jpeg" target="assets\" />
+          </files>
+        </Package>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath></PackagePath>
+        </None>
+    </ItemGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\Seturi.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\Seturi.xml</DocumentationFile>
     </PropertyGroup>
 
 </Project>
